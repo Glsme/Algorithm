@@ -1,0 +1,65 @@
+# 카드
+## 문제 설명
+1부터 N까지의 숫자가 적힌 카드가 있다. 찬유는 이 카드를 가지고 마술을 하려 한다. 마술을 하는 순서는 다음과 같다.
+
+먼저 1부터 N까지의 숫자가 적힌 카드에서 첫 번째 카드를 가장 뒤로 옮긴다. 그러고 나서 첫 번째 카드를 책상 위에 올려놓는다. 그런데 그 카드는 1이 되어야 한다.
+그리고 남은 카드 중에서 첫 번째 카드를 가장 뒤로 옮기고, 또 가장 앞에 있는 카드를 가장 뒤로 옮긴다.(2번 반복) 그리고 가장 앞에 있는 카드를 책상 위에 올려놓는다. 그런데 그 카드는 2가 되어야 한다.
+또 남은 카드 중에서 첫 번째 카드를 가장 뒤로 옮기고... (3번 반복) 그리고 가장 앞에 있는 카드를 책상위에 올려놓는데 그것은 3이 된다.
+또 남은 카드 중에서 첫 번째 카드를 가장 뒤로 옮기고.. (4번 반복) 그리고 가장 앞에 있는 카드를 책상 위에 올려놓는데 그것은 4이다.
+위 과정을 계속 반복하여 N번 카드만 남을 때 까지 반복한다.
+위와 같은 카드를 하려면 미리 카드의 순서를 알고 있어야 한다. 카드의 개수 N이 주어져 있을 때 위의 마술을 하기 위한 카드의 초기 순서를 구하는 프로그램을 작성하시오.
+
+
+## 문제 풀이
+
+```swift
+struct Dequeue<T: Comparable> {
+    var enQueue: [T] = []
+    var deQueue: [T] = []
+    
+    var count: Int {
+        return enQueue.count + deQueue.count
+    }
+    
+    mutating func pushLast(_ element: T) {
+        enQueue.append(element)
+    }
+    
+    mutating func pushFirst(_ element: T) {
+        deQueue.append(element)
+    }
+    
+    mutating func popLast() -> T {
+        if enQueue.isEmpty {
+            enQueue = deQueue.reversed()
+            deQueue.removeAll()
+        }
+        
+        return enQueue.popLast()!
+    }
+    
+    mutating func popFirst() -> T {
+        if deQueue.isEmpty {
+            deQueue = enQueue.reversed()
+            enQueue.removeAll()
+        }
+        return deQueue.popLast()!
+    }
+}
+
+
+var num = Int(readLine()!)!
+var deq = Dequeue<Int>()
+
+for i in stride(from: num, through: 1, by: -1) {
+    deq.pushFirst(i)
+    
+    for _ in 1...i {
+        deq.pushFirst(deq.popLast())
+    }
+}
+
+for _ in 0..<deq.count {
+    print(deq.popFirst(), terminator: " ")
+}
+```
