@@ -17,7 +17,7 @@ struct Queue {
     }
     
     mutating func dequeue() -> Int? {
-        guard head <= queue.count, let element = queue[head] else { return nil }
+        guard head < queue.count, let element = queue[head] else { return nil }
         queue[head] = nil
         head += 1
         
