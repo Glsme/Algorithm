@@ -1,21 +1,20 @@
 import Foundation
 
-let countLine = readLine()!
-let count = Int(countLine)!
+let count = Int(readLine()!)!
 
 for _ in 1...count {
-    let oxLine = readLine()!
-    let oxArray = Array(oxLine)
-    
-    var continueityCount = 0
+    let array = Array(readLine()!)
     var score = 0
-    for string in oxArray {
-        if string == "O" {
-            score += continueityCount + 1
-            continueityCount += 1
+    var index = 1
+    
+    for char in array {
+        if char == "O" {
+            score += index
+            index += 1
         } else {
-            continueityCount = 0
+            index = 1
         }
     }
+    
     print(score)
 }
